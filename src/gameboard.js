@@ -2,6 +2,7 @@ import Ship from "./ship.js";
 
 const Gameboard = () => {
 	const missedAttacks = [];
+	const attacksHit = [];
 	const ships = [];
 
 	const placeShip = (startCoordinates, orientation, length) => {
@@ -39,35 +40,54 @@ const Gameboard = () => {
 	};
 
 	const receiveAttack = (attackCoordinates) => {
+		for (let i = 0; i < attacksHit.length; i++) {
+			if (
+				attacksHit[i][0] === attackCoordinates[0] &&
+				attacksHit[i][1] === attackCoordinates[1]
+			) {
+				return "already hit";
+			}
+		}
 		const coordinatesOfShip = ships.find((shipObj) => {
 			let checkCord = shipObj.coordinates;
-			for(let i=0; i<checkCord.length; i++) {
-				if(checkCord[i][0] === attackCoordinates[0] && checkCord[i][1] === attackCoordinates[1]) {
+			for (let i = 0; i < checkCord.length; i++) {
+				if (
+					checkCord[i][0] === attackCoordinates[0] &&
+					checkCord[i][1] === attackCoordinates[1]
+				) {
 					return true;
 				}
 			}
 			return false;
-		})
+		});
 
-		if(coordinatesOfShip) {
+		if (coordinatesOfShip) {
 			let ship = coordinatesOfShip.shipInstance;
 			ship.hit();
+			attacksHit.push(attackCoordinates);
 			return true;
-		}
-		else {
+		} else {
+			attacksHit.push(attackCoordinates);
 			missedAttacks.push(attackCoordinates);
-			return false
+			return false;
 		}
 	};
 
-	const allShipsSunk = () => {};
+	const allShipsSunk = () => {
+		return ships.every((shipObj) => {
+			if (shipObj.shipInstance.isSunk()) {
+				return true;
+			}
+			return false;
+		});
+	};
 
 	const getMissedAttacks = () => {
 		return missedAttacks;
 	};
 
 	const getShipCoordinates = () => {
-		return ships.flatMap(shipObj => shipObj.coordinates);
+		return ships.flatMap((shipObj) => shipObj.coordinates);
 	};
 
 	return {
