@@ -86,6 +86,10 @@ const Gameboard = () => {
 		return missedAttacks;
 	};
 
+	const getAttacksHit = () => {
+		return attacksHit;
+	};
+
 	const getShipCoordinates = () => {
 		return ships.flatMap((shipObj) => shipObj.coordinates);
 	};
@@ -95,6 +99,7 @@ const Gameboard = () => {
 		receiveAttack,
 		allShipsSunk,
 		getMissedAttacks,
+		getAttacksHit,
 		getShipCoordinates,
 	};
 };
