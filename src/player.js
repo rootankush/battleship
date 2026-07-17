@@ -4,15 +4,15 @@ import Gameboard from "./gameboard";
 const Player = (type) => {
 	const gameboard = Gameboard();
 
-	const attackType = (coordinates) => {
-		if (type === "player") {
-			gameboard.receiveAttack(coordinates);
+	const attackType = (coordinates, enemyBoard) => {
+		if (type === "real") {
+			enemyBoard.receiveAttack(coordinates);
 		} else {
 			let coordinatesComputer = [
 				Math.floor(Math.random() * 10),
 				Math.floor(Math.random() * 10),
 			];
-			const hits = gameboard.getAttacksHit();
+			const hits = enemyBoard.getAttacksHit();
 			while (
 				hits.some(
 					(hit) =>
@@ -25,7 +25,7 @@ const Player = (type) => {
 					Math.floor(Math.random() * 10),
 				];
 			}
-			gameboard.receiveAttack(coordinatesComputer);
+			enemyBoard.receiveAttack(coordinatesComputer);
 		}
 	};
 
