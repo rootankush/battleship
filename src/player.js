@@ -30,6 +30,7 @@ const Player = (type) => {
 	};
 
 	return {
+		type,
 		gameboard,
 		attackType,
 	};

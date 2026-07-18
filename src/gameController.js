@@ -16,20 +16,31 @@ const GameController = () => {
 		}
 	}
 
+	function triggerComputerTurn() {
+		if (currentTurn.type === "computer") {
+			playRound();
+		}
+	}
+
 	const playRound = (coordinates) => {
+		if (gameOver === true) {
+			return;
+		}
 		if (currentTurn === player1) {
 			player1.attackType(coordinates, player2.gameboard);
 			if (player2.gameboard.allShipsSunk() === true) {
-				isGameOver();
+				gameOver = true;
 			} else {
 				switchTurn();
+				triggerComputerTurn();
 			}
 		} else {
 			player2.attackType(coordinates, player1.gameboard);
 			if (player1.gameboard.allShipsSunk() === true) {
-				isGameOver();
+				gameOver = true;
 			} else {
 				switchTurn();
+				triggerComputerTurn();
 			}
 		}
 	};
@@ -38,11 +49,17 @@ const GameController = () => {
 		return currentTurn;
 	};
 
-	const isGameOver = () => {};
+	const isGameOver = () => {
+		return gameOver;
+	};
 
 	return {
 		playRound,
 		getCurrentPlayer,
 		isGameOver,
+		player1,
+		player2,
 	};
 };
+
+export default GameController;
