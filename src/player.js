@@ -7,7 +7,7 @@ const Player = (type) => {
 	const attackType = (coordinates, enemyBoard) => {
 		if (type === "real") {
 			enemyBoard.receiveAttack(coordinates);
-		} else {
+		} else if (type === "computer") {
 			let coordinatesComputer = [
 				Math.floor(Math.random() * 10),
 				Math.floor(Math.random() * 10),
