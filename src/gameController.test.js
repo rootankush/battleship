@@ -2,19 +2,17 @@ import GameController from "./gameController";
 import Player from "./player";
 
 describe("Turn Order and Switching", () => {
+	const game = GameController();
 	test("getCurrentPlayer returns player1 before any round is played", () => {
-		const game = GameController();
 		expect(game.getCurrentPlayer()).toEqual(game.player1);
 	});
 	test("after one round no one wins and switch to player2", () => {
-		const game = GameController();
 		game.player1.gameboard.placeShip([0, 0], "horizontal", 3);
 		game.player2.gameboard.placeShip([0, 0], "horizontal", 3);
 		game.playRound([2, 3]);
 		expect(game.player1.gameboard.getAttacksHit().length).toBe(1);
 	});
 	test("after a full real-turn does it come back to player1", () => {
-		const game = GameController();
 		game.player1.gameboard.placeShip([0, 0], "horizontal", 3);
 		game.player2.gameboard.placeShip([0, 0], "horizontal", 3);
 		game.playRound([2, 3]);
@@ -36,5 +34,22 @@ describe("Attack Targeting", () => {
 		game.player2.gameboard.placeShip([0, 0], "horizontal", 3);
 		game.playRound([2, 3]);
 		expect(game.player1.gameboard.getAttacksHit().length).toBe(1);
+	});
+});
+
+describe("Win detection", () => {
+	test("does isGameOver() checks for win", () => {
+		const game = GameController();
+		game.player1.gameboard.placeShip([0, 0], "horizontal", 1);
+		game.player2.gameboard.placeShip([0, 0], "horizontal", 1);
+		game.playRound([0, 0]);
+		expect(game.isGameOver()).toBe(true);
+	});
+	test("does isGameOver() return false if ship is not fulled sinked", () => {
+		const game = GameController();
+		game.player1.gameboard.placeShip([0, 0], "horizontal", 1);
+		game.player2.gameboard.placeShip([0, 0], "horizontal", 3);
+		game.playRound([0, 0]);
+		expect(game.isGameOver()).toBe(false);
 	});
 });
