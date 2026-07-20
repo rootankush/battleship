@@ -53,3 +53,23 @@ describe("Win detection", () => {
 		expect(game.isGameOver()).toBe(false);
 	});
 });
+
+describe("Post Game detection", () => {
+	test("does it return after the game is over and we call playround again", () => {
+		const game = GameController();
+		game.player1.gameboard.placeShip([0, 0], "horizontal", 1);
+		game.player2.gameboard.placeShip([0, 0], "horizontal", 1);
+		game.playRound([0, 0]);
+		expect(game.playRound(1, 2)).toBe();
+	});
+});
+
+describe("Multiple and Dublicate Attacks", () => {
+	test("does it return already hit if we attack same coordinates multiple times", () => {
+		const game = GameController();
+		game.player1.gameboard.placeShip([0, 0], "horizontal", 3);
+		game.player2.gameboard.placeShip([0, 0], "horizontal", 3);
+		game.playRound([0, 0]);
+		expect(game.player2.gameboard.getAttacksHit().length).toBe(1);
+	});
+});

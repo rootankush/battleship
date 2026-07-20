@@ -27,7 +27,10 @@ const GameController = () => {
 			return;
 		}
 		if (currentTurn === player1) {
-			player1.attackType(coordinates, player2.gameboard);
+			const result = player1.attackType(coordinates, player2.gameboard);
+			if (result === "already hit") {
+				return;
+			}
 			if (player2.gameboard.allShipsSunk() === true) {
 				gameOver = true;
 			} else {
@@ -35,7 +38,10 @@ const GameController = () => {
 				triggerComputerTurn();
 			}
 		} else {
-			player2.attackType(coordinates, player1.gameboard);
+			const result = player2.attackType(coordinates, player1.gameboard);
+			if (result === "already hit") {
+				return;
+			}
 			if (player1.gameboard.allShipsSunk() === true) {
 				gameOver = true;
 			} else {
